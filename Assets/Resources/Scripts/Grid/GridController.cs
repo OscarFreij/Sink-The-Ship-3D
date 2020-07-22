@@ -61,21 +61,23 @@ public class GridController : MonoBehaviour
                 GameObject tempLayer = new GameObject();
                 tempLayer.transform.position = new Vector3(0, i, 0);
                 tempLayer.transform.rotation = Quaternion.identity;
-                tempLayer.name = "L" + i + "#";
+                tempLayer.name = "L#" + i + "#";
                 tempLayer.transform.parent = this.GridObject.transform;
+                Debug.Log(tempLayer.name + " created");
                 // Add new row
                 for (int j = 0; j < GridSize.x; j++)
                 {
                     GameObject tempRow = new GameObject();
                     tempRow.transform.position = new Vector3(0, i, j);
                     tempRow.transform.rotation = Quaternion.identity;
-                    tempRow.name = tempLayer.name + "R" + j + "#";
+                    tempRow.name = "R#" + j + "#";
                     tempRow.transform.parent = tempLayer.transform;
+                    Debug.Log(tempRow.name + " created");
                     // Add new tile
                     for (int k = 0; k < GridSize.z; k++)
                     {
                         GameObject tempTile = Instantiate<GameObject>(this.TileObject, new Vector3(k, i, j), Quaternion.identity);
-                        tempTile.name = tempRow.name + "T" + k + "#";
+                        tempTile.name = "T#" + k + "#";
                         tempTile.transform.parent = tempRow.transform;
                         Debug.Log(tempTile.name + " created");
                     }
