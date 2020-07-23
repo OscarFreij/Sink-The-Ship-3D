@@ -9,11 +9,14 @@ public class GameManager : MonoBehaviour
     public GridController GridController { get; private set; }
     public Vector3 GridSize;
 
-    public bool ChangeX;
-    public bool ChangeY;
-    public bool ChangeZ;
+
+    // Grid Selection Variables
     public Vector3 SelectedGridPos;
     public GameObject Selected_Tile;
+
+    // Camera Variabels
+    public bool CameraMovement = false;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -28,65 +31,72 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.X))
-        {
-            ChangeX = true;
-            ChangeY = false;
-            ChangeZ = false;
-            GameObject.Find("Canvas").transform.Find("Image").transform.Find("Text").GetComponent<Text>().text = "X";
-        }
-        else if (Input.GetKeyDown(KeyCode.Y))
-        {
-            ChangeX = false;
-            ChangeY = true;
-            ChangeZ = false;
-            GameObject.Find("Canvas").transform.Find("Image").transform.Find("Text").GetComponent<Text>().text = "Y";
-        }
-        else if (Input.GetKeyDown(KeyCode.Z))
-        {
-            ChangeX = false;
-            ChangeY = false;
-            ChangeZ = true;
-            GameObject.Find("Canvas").transform.Find("Image").transform.Find("Text").GetComponent<Text>().text = "Z";
-        }
-        else if (Input.GetKeyDown(KeyCode.U))
-        {
-            ChangeX = false;
-            ChangeY = false;
-            ChangeZ = false;
-            GameObject.Find("Canvas").transform.Find("Image").transform.Find("Text").GetComponent<Text>().text = "U";
-        }
+        CameraMovement = Input.GetMouseButton(1);
 
-
-        if(Input.GetKeyDown(KeyCode.KeypadPlus) || Input.GetKeyDown(KeyCode.Plus))
+        if(!CameraMovement)
         {
-            if(ChangeX && SelectedGridPos.x < GridSize.x)
+            // X - Axis
+            if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
             {
-                SelectedGridPos += new Vector3(1, 0, 0);
+                if (SelectedGridPos.x < GridSize.x)
+                {
+                    SelectedGridPos.x++;
+                }
             }
-            else if (ChangeY && SelectedGridPos.y < GridSize.y)
+            else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.DownArrow))
             {
-                SelectedGridPos += new Vector3(0, 1, 0);
+                if (SelectedGridPos.x > 0)
+                {
+                    SelectedGridPos.x--;
+                }
             }
-            else if (ChangeZ && SelectedGridPos.z < GridSize.z)
+
+            // Y - Axis
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                SelectedGridPos += new Vector3(0, 0, 1);
+                if (SelectedGridPos.y < GridSize.y)
+                {
+                    SelectedGridPos.y++;
+                }
+            }
+            else if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
+            {
+                if (SelectedGridPos.y > 0)
+                {
+                    SelectedGridPos.y--;
+                }
+            }
+
+            // Z - Axis
+            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                if (SelectedGridPos.z < GridSize.z)
+                {
+                    SelectedGridPos.z++;
+                }
+            }
+            else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                if (SelectedGridPos.z > 0)
+                {
+                    SelectedGridPos.z--;
+                }
+            }
+
+            GameObject.Find("Canvas").transform.Find("Text").GetComponent<Text>().text = SelectedGridPos.x + ":" + SelectedGridPos.y + ":" + SelectedGridPos.z;
+
+            try
+            {
+                Selected_Tile.transform.position = GameObject.Find("Grid").transform.Find("L#" + SelectedGridPos.y + "#").transform.Find("R#" + SelectedGridPos.z + "#").transform.Find("T#" + SelectedGridPos.x + "#").transform.position;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e);
             }
         }
-        else if (Input.GetKeyDown(KeyCode.KeypadMinus) || Input.GetKeyDown(KeyCode.Minus))
+        else
         {
-            if (ChangeX && SelectedGridPos.x > 0)
-            {
-                SelectedGridPos -= new Vector3(1, 0, 0);
-            }
-            else if (ChangeY && SelectedGridPos.y > 0)
-            {
-                SelectedGridPos -= new Vector3(0, 1, 0);
-            }
-            else if (ChangeZ && SelectedGridPos.z > 0)
-            {
-                SelectedGridPos -= new Vector3(0, 0, 1);
-            }
+            // Camera movement is allowed
         }
 
 

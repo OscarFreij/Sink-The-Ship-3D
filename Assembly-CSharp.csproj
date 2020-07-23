@@ -66,6 +66,7 @@
     <Compile Include="Assets\Resources\Scripts\GameManager.cs" />
     <Compile Include="Assets\Resources\Scripts\Grid\GridController.cs" />
     <Compile Include="Assets\Resources\Scripts\Grid\Tile.cs" />
+    <Compile Include="Assets\Resources\Scripts\Other\CameraController.cs" />
     <Reference Include="UnityEngine">
       <HintPath>E:/Unity Editors/2019.4.2f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
