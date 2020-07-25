@@ -342,9 +342,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GridSize: {x: 25, y: 3, z: 25}
-  ChangeX: 0
-  ChangeY: 0
-  ChangeZ: 0
   SelectedGridPos: {x: 0, y: 0, z: 0}
   Selected_Tile: {fileID: 0}
   CameraMovement: 0
@@ -619,6 +616,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Sensitivity: {x: 1, y: 1}
+  MovementSpeed: 24
   GM: {fileID: 0}
 --- !u!4 &1616000976
 Transform:

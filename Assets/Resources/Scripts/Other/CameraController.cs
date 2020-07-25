@@ -5,6 +5,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     public Vector2 Sensitivity = new Vector2(1, 1);
+    public float MovementSpeed = 12.0f;
     public GameManager GM;
     // Start is called before the first frame update
     void Start()
@@ -31,7 +32,7 @@ public class CameraController : MonoBehaviour
 
             MovementVector.y += Input.mouseScrollDelta.y;
 
-            this.transform.position += MovementVector;
+            this.transform.position += (MovementVector * MovementSpeed * Time.deltaTime);
         }
 
 

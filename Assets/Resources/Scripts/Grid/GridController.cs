@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,6 +25,7 @@ public class GridController : MonoBehaviour
         catch
         {
             Debug.LogError("ERROR - GridController could not be initialized!");
+            return false;
         }
         return true;
     }
@@ -87,6 +89,92 @@ public class GridController : MonoBehaviour
         catch
         {
             Debug.LogError("ERROR - Could not create Grid Object!");
+            return false;
+        }
+
+        try
+        {
+            GameObject WallGroopObject = new GameObject();
+            WallGroopObject.name = "WallGroopObject";
+
+            GameObject tempObject;
+
+
+            // Floor
+            tempObject = Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/Grid/MapWalls/WallObject_#Orientation#"), new Vector3((GridSize.x / 2)-0.5f, 0, (GridSize.z / 2) - 0.5f), Quaternion.identity);
+            tempObject.transform.eulerAngles = new Vector3(-90, 0, 0);
+            tempObject.transform.Find("Wall").GetComponent<SpriteRenderer>().size = new Vector2(GridSize.x, GridSize.z);
+            tempObject.transform.Find("Wall").GetComponent<SpriteRenderer>().sortingOrder = -1;
+
+            tempObject.transform.Find("WallMask").transform.localScale = new Vector3(GridSize.x, GridSize.z, 1);
+            tempObject.transform.Find("WallMask").GetComponent<SpriteMask>().frontSortingOrder = -1;
+            tempObject.transform.Find("WallMask").GetComponent<SpriteMask>().backSortingOrder = -2;
+
+            tempObject.name = "WallObject_#Floor#";
+            tempObject.transform.parent = WallGroopObject.transform;
+
+
+            // Front
+            tempObject = Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/Grid/MapWalls/WallObject_#Orientation#"), new Vector3(GridSize.x - 1, (GridSize.y / 2) - 0.5f, (GridSize.z / 2) - 0.5f), Quaternion.identity);
+            tempObject.transform.eulerAngles = new Vector3(0, -90, 0);
+            tempObject.transform.Find("Wall").GetComponent<SpriteRenderer>().size = new Vector2(GridSize.x, GridSize.y);
+            tempObject.transform.Find("Wall").GetComponent<SpriteRenderer>().sortingOrder = -2;
+
+            tempObject.transform.Find("WallMask").transform.localScale = new Vector3(GridSize.z, GridSize.y, 1);
+            tempObject.transform.Find("WallMask").GetComponent<SpriteMask>().frontSortingOrder = -2;
+            tempObject.transform.Find("WallMask").GetComponent<SpriteMask>().backSortingOrder = -3;
+
+            tempObject.name = "WallObject_#Front#";
+            tempObject.transform.parent = WallGroopObject.transform;
+
+
+            // Rear
+            tempObject = Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/Grid/MapWalls/WallObject_#Orientation#"), new Vector3(0, (GridSize.y / 2) - 0.5f, (GridSize.z / 2) - 0.5f), Quaternion.identity);
+            tempObject.transform.eulerAngles = new Vector3(0, 90, 0);
+            tempObject.transform.Find("Wall").GetComponent<SpriteRenderer>().size = new Vector2(GridSize.z, GridSize.y);
+            tempObject.transform.Find("Wall").GetComponent<SpriteRenderer>().sortingOrder = -3;
+
+            tempObject.transform.Find("WallMask").transform.localScale = new Vector3(GridSize.x, GridSize.y, 1);
+            tempObject.transform.Find("WallMask").GetComponent<SpriteMask>().frontSortingOrder = -3;
+            tempObject.transform.Find("WallMask").GetComponent<SpriteMask>().backSortingOrder = -4;
+
+            tempObject.name = "WallObject_#Rear#";
+            tempObject.transform.parent = WallGroopObject.transform;
+
+
+            // Right
+            tempObject = Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/Grid/MapWalls/WallObject_#Orientation#"), new Vector3((GridSize.x / 2) - 0.5f, (GridSize.y / 2) - 0.5f, 0), Quaternion.identity);
+            tempObject.transform.eulerAngles = new Vector3(0, 0, 0);
+            tempObject.transform.Find("Wall").GetComponent<SpriteRenderer>().size = new Vector2(GridSize.x, GridSize.y);
+            tempObject.transform.Find("Wall").GetComponent<SpriteRenderer>().sortingOrder = -4;
+
+            tempObject.transform.Find("WallMask").transform.localScale = new Vector3(GridSize.x, GridSize.y, 1);
+            tempObject.transform.Find("WallMask").GetComponent<SpriteMask>().frontSortingOrder = -4;
+            tempObject.transform.Find("WallMask").GetComponent<SpriteMask>().backSortingOrder = -5;
+
+            tempObject.name = "WallObject_#Right#";
+            tempObject.transform.parent = WallGroopObject.transform;
+
+
+            // Left
+            tempObject = Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/Grid/MapWalls/WallObject_#Orientation#"), new Vector3((GridSize.x / 2) - 0.5f, (GridSize.y / 2) - 0.5f, GridSize.z - 1), Quaternion.identity);
+            tempObject.transform.eulerAngles = new Vector3(0, -180, 0);
+            tempObject.transform.Find("Wall").GetComponent<SpriteRenderer>().size = new Vector2(GridSize.x, GridSize.y);
+            tempObject.transform.Find("Wall").GetComponent<SpriteRenderer>().sortingOrder = -5;
+
+            tempObject.transform.Find("WallMask").transform.localScale = new Vector3(GridSize.x, GridSize.y, 1);
+            tempObject.transform.Find("WallMask").GetComponent<SpriteMask>().frontSortingOrder = -5;
+            tempObject.transform.Find("WallMask").GetComponent<SpriteMask>().backSortingOrder = -6;
+
+            tempObject.name = "WallObject_#Left#";
+            tempObject.transform.parent = WallGroopObject.transform;
+
+
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("ERROR - Could not create Grid Walls! | " + e);
+            return false;
         }
 
         return true;
