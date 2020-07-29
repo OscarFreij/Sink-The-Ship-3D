@@ -67,6 +67,10 @@
     <Compile Include="Assets\Resources\Scripts\Grid\GridController.cs" />
     <Compile Include="Assets\Resources\Scripts\Grid\Tile.cs" />
     <Compile Include="Assets\Resources\Scripts\Other\CameraController.cs" />
+    <Compile Include="Assets\Resources\Scripts\Ship\ShipClass.cs" />
+    <Compile Include="Assets\Resources\Scripts\Ship\ShipCore.cs" />
+    <Compile Include="Assets\Resources\Scripts\Ship\ShipHullSection.cs" />
+    <Compile Include="Assets\Resources\Scripts\Ship\ShipModules.cs" />
     <Reference Include="UnityEngine">
       <HintPath>E:/Unity Editors/2019.4.2f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>

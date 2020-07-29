@@ -14,6 +14,10 @@ public class GameManager : MonoBehaviour
     public Vector3 SelectedGridPos;
     public GameObject Selected_Tile;
 
+    public Vector3 SelectedGridPos_1;
+    public GameObject SelectedObject;
+    public Vector3 SelectedGridPos_2;
+
     // Camera Variabels
     public bool CameraMovement = false;
     
@@ -24,6 +28,8 @@ public class GameManager : MonoBehaviour
         GridController.Init();
         GridController.CreateGrid(GridSize);
         SelectedGridPos = new Vector3(0,0,0);
+        SelectedGridPos_1 = new Vector3(0,0,0);
+        SelectedGridPos_2 = new Vector3(0,0,0);
         Selected_Tile = Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/Grid/Selected_Tile"), SelectedGridPos, Quaternion.identity);
         Selected_Tile.name = "Selected_Tile";
     }
@@ -42,6 +48,7 @@ public class GameManager : MonoBehaviour
                 {
                     SelectedGridPos.x++;
                 }
+
             }
             else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.DownArrow))
             {
@@ -83,6 +90,21 @@ public class GameManager : MonoBehaviour
                 }
             }
 
+
+            // Rotation
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                if (SelectedGridPos.z < GridSize.z)
+                {
+                    Selected_Tile.transform.Rotate(0, -90, 0);
+                }
+            }
+            else if (Input.GetKeyDown(KeyCode.E))
+            {
+                Selected_Tile.transform.Rotate(0, 90, 0);
+            }
+
+
             GameObject.Find("Canvas").transform.Find("Text").GetComponent<Text>().text = SelectedGridPos.x + ":" + SelectedGridPos.y + ":" + SelectedGridPos.z;
 
             try
@@ -102,9 +124,41 @@ public class GameManager : MonoBehaviour
 
         GameObject.Find("Canvas").transform.Find("Text").GetComponent<Text>().text = SelectedGridPos.x + ":" + SelectedGridPos.y + ":" + SelectedGridPos.z;
 
+
+        //BASIC Movement SYSTEM - HACKYWAKY
         try
         {
             Selected_Tile.transform.position = GameObject.Find("Grid").transform.Find("L#" + SelectedGridPos.y + "#").transform.Find("R#" + SelectedGridPos.z + "#").transform.Find("T#" + SelectedGridPos.x + "#").transform.position;
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                SelectedGridPos_1 = Selected_Tile.transform.position;
+                foreach (Transform Ship in GameObject.Find("Ships").transform)
+                {
+                    if (Ship.GetComponent<ShipCore>().ShipPos == SelectedGridPos_1)
+                    {
+                        SelectedObject = Ship.gameObject;
+                        GameObject.Find("Canvas").transform.Find("Selection_1").GetComponent<Text>().text = "Selection_1: " + Ship.GetComponent<ShipCore>().ShipID;
+                        break;
+                    }
+                    else
+                    {
+
+                    }
+                }
+                
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                SelectedGridPos_2 = Selected_Tile.transform.position;
+                GameObject.Find("Canvas").transform.Find("Selection_2").GetComponent<Text>().text = "Selection_2: " + SelectedGridPos.x + ":" + SelectedGridPos.y + ":" + SelectedGridPos.z;
+            }
+
+            if (SelectedObject != null && SelectedGridPos_2 != null && Input.GetKeyDown(KeyCode.M))
+            {
+                GameObject.Find(SelectedObject.GetComponent<ShipCore>().ShipID).GetComponent<ShipCore>().MoveTo(SelectedGridPos_2, Selected_Tile.transform.rotation);
+
+            }
         }
         catch (Exception e)
         {
